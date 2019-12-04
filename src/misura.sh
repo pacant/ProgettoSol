@@ -11,14 +11,7 @@ while read -e -u 3 -a line; do
 		i=$(($i + 1))
 	fi
 done
-#
-#FIN QUI: ho parsato il logClient e recuperato id e secret di ogni client
-#
 
-
-#
-#ORA:parso il logSuper per confrontare le stime del supervisor
-#
 exec 4<supervisor.log
 dim=${#id[@]}
 i=0

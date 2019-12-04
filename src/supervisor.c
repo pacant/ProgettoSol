@@ -154,5 +154,6 @@ int main(int argc,char* argv[]){
     free(msg);
     del_list(&list);
     if (pids) free(pids);
+    fprintf(stdout,"SUPERVISOR EXITING");
     return 0;
 }

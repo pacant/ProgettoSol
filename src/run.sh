@@ -1,11 +1,9 @@
 #!/bin/bash
 
-#Lancia 8 server
 echo "Supervisor e servers in esecuzione"
 ./supervisor 8 1> supervisor.log 2>stderror.log &
 sleep 1
 
-#lancia 2 client al secondo
 for (( i = 0; i < 10 ; ++i )); do
     ./client 5 8 20 1>> client.log &
     ./client 5 8 20 1>> client.log &
