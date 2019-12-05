@@ -18,7 +18,7 @@ struct s{
     int fd;
     int in;
 };
-typedef struct s elencoserver; 
+typedef struct s elencoserver;
 
 int main(int argc, char* argv[]){
     if(argc!=4){
@@ -26,10 +26,10 @@ int main(int argc, char* argv[]){
         exit(EXIT_FAILURE);
     }
     srand(time(0)*getpid());
-    
+
     int p= atoi(argv[1]); // numero di server con cui comunicare
     int k= atoi(argv[2]); // numero di server attivi
-    int w= atoi(argv[3]); // messaggi da inviare   
+    int w= atoi(argv[3]); // messaggi da inviare
     if(p>k||p<1||w<=3*p){
         perror("Errore, rispettare i vincoli: 1<= p < k, w>3p");
         exit(EXIT_FAILURE);
@@ -40,9 +40,9 @@ int main(int argc, char* argv[]){
 
     uint32_t id= lrand48(); //genero id
     int secret= rand()%3000 + 1; //genero il secret fra 1 e 3000
-    
+
     printf("CLIENT %x SECRET %d\n",id,secret); // stampo id e secret
-        
+
     int i,aux,sfd;
     elencoserver* serv;
     ec_null(serv=malloc(sizeof(elencoserver)*k),"Errore malloc"); // creo una struct per tenere elenco dei server con i loro fd
@@ -53,10 +53,8 @@ int main(int argc, char* argv[]){
     for(i=0;i<p;i++){
         do {
             aux=rand()%k;
-            //fprintf(stdout,"Server numero: %d\nserv[aux].in=%d\n",aux,serv[aux].in);
         }
         while(serv[aux].in);
-        //fprintf(stdout,"Server accettato: %d\n",aux);
         serv[aux].in=1;
         if ((sfd=socket(AF_UNIX,SOCK_STREAM,0))<= 0) {
             perror("Errore nella creazione del socket");
@@ -70,11 +68,11 @@ int main(int argc, char* argv[]){
         //fprintf(stdout,"%d - Server\n",aux);
         ec_meno1(connect(sfd,(struct sockaddr*)&sa,sizeof(sa)),"Errore nella connessione al socket");
     }
-    
+
     //for(i=0;i<k;i++) if(serv[i].in) fprintf(stdout,"Server fd %i :%d\n",i,serv[i].fd);
     // qui sono connesso ai server
-    
-    int serverconn[p]; //array di appoggio 
+
+    int serverconn[p]; //array di appoggio
     int j= -1;
     for(i=0;i<p;i++) serverconn[i] = 0;
     for(i=0;i<k&&j<p;i++){
