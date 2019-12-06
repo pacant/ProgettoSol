@@ -73,9 +73,11 @@ void sigint_handler(int signum){
 }
 int main(int argc,char* argv[]){
     if(argc!=2){
-        perror("Errore: argomenti non validi, passare 1 valori\n");
+        perror("Errore: argomenti non validi, passare 1 valore\n");
     }
-
+    int k= atoi(argv[1]); //numero dei server da creare
+    fprintf(stdout,"SUPERVISOR STARTING %d\n",k);
+    fflush(stdout);
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
     sa.sa_handler= sigint_handler;
@@ -83,8 +85,6 @@ int main(int argc,char* argv[]){
     ec_meno1(sigaction(SIGINT,&sa,NULL),"Errore nella sigaction\n");
     sa.sa_flags = SA_RESTART;
 
-    int k= atoi(argv[1]); //numero dei server da creare
-    fprintf(stdout,"SUPERVISOR STARTING %d\n",k);
     int pipes[k][2];
     int i;
     fd_set set;
@@ -111,7 +111,7 @@ int main(int argc,char* argv[]){
     int * stima;
     ec_null(stima=malloc(sizeof(int)),"Errore malloc");
     char * msg;
-    ec_null(msg=malloc(sizeof(MAXTOWRITE)),"Errore malloc"); 
+    ec_null(msg=malloc(sizeof(MAXTOWRITE)),"Errore malloc");
     while(supup){ //esco dal while solo con i segnali
         // controllo le pipe pronte
         rdset=set;
