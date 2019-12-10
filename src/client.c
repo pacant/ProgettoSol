@@ -94,7 +94,7 @@ int main(int argc, char* argv[]){
     int towrite;
     for(i=0;i<w;i++){
         towrite=rand()%p;
-        ec_meno1(write(serverconn[towrite],tosend,sizeof(uint32_t)),"Errore writen");
+        ec_meno1(write(serverconn[towrite],tosend,sizeof(uint32_t)),"Errore write");
         nanosleep(&nqtp,NULL);
     }
 
