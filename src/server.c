@@ -60,7 +60,7 @@ static void* workerclient(void * arg){
         count++;
         gettimeofday(&curr,NULL);
         result=ntohl(*id);
-    
+
         timeval_subtract(&diff,&curr,&prec); //FUNZIONE TROVATA SU INTERNET, CALCOLA LA DIFFERENZA TRA I TEMPI©
         est= realloc(est,32);
         sprintf(est,"%ld%03d",labs(diff.tv_sec),abs(diff.tv_usec/1000));
@@ -93,7 +93,7 @@ int main(int argc, char* argv[]){
     sg.sa_flags = SA_RESTART;
 
     fprintf(stdout,"SERVER %d ACTIVE\n",fd);
-    pthread_t worker; 
+    pthread_t worker;
 
     // creo la socket
     int fd_skt;
@@ -117,12 +117,10 @@ int main(int argc, char* argv[]){
          perror("Errore nell'accept del socket\n");
         }
         fprintf(stdout,"SERVER %d CONNECT FROM CLIENT\n",fd);
-        //pthread_mutex_lock(&lock);
         client = malloc(sizeof(clientargs));
         client->fdclient=cfd;
         client->fdpipe=fdpipe;
         client->fdserver=fd;
-        //pthread_mutex_unlock(&lock);
         if(pthread_create(&worker,NULL,workerclient,client)!=0){
             perror("Errore creando il thread dispatcher\n");
             close(cfd);

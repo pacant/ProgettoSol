@@ -40,14 +40,16 @@ neg=-1
 totError=0
 correctErr=0
 
+echo "MISURAZIONE:"
+
 for ((i=0; i<${#id[@]}; i+=1)); do
 	error[$i]=$((${secret[$i]} - ${supTime[$i]}))
-	
+
 	if ((${error[$i]} < 0));then
 		error[$i]=$((${error[$i]} * neg))
 	fi
 
-	echo "id - ${id[$i]}__secret - ${secret[$i]}__stima - ${supTime[$i]}"
+	echo "ID: ${id[$i]} SECRET: ${secret[$i]} STIMA: ${supTime[$i]}"
 
 	if ((${error[$i]} < 25)); then
 		correctErr=$(($correctErr + 1))

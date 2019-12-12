@@ -24,7 +24,6 @@ pid_t * pids;
 static time_t prectime;
 lista list;
 
-//TODO: fargli fare la stima del secret e associarle al client nella tabella hash
 void createservers(int k, int pipes[k][2]){
     ec_null(pids=calloc(k,sizeof(pid_t)),"Errore allocando pids");
     int i,j;
@@ -65,9 +64,9 @@ void* parsebuf(int *id, int* stima, char* msg){
     return (void*)1;
 }
 void sigint_handler(int signum){
-    if(time(NULL)-prectime <=1) supup=0;
+    if(time(NULL)-prectime <=1) supup=0; //metto ad 0 il flag del ciclo principale del supervisor
     else{
-        stampa(list,1);
+        stampa(list,1); // con un SIGINT stampo su stderr
     }
     prectime=time(NULL);
 }
@@ -118,7 +117,7 @@ int main(int argc,char* argv[]){
         errno=0;
         if((select(FD_SETSIZE,&rdset,NULL,NULL,NULL)<0)){
             if(errno!=EINTR){
-                perror("Errore nella select");  //QUI IL PROBLEMA
+                perror("Errore nella select");
                 exit(EXIT_FAILURE);
             }
             else continue;
@@ -147,8 +146,8 @@ int main(int argc,char* argv[]){
                 }
             }
     }
-    for (i=0; i <k; i++) kill(pids[i], SIGTERM);
-    stampa(list,0);
+    for (i=0; i <k; i++) kill(pids[i], SIGTERM); // chiudo i processi server
+    stampa(list,0); //ultima stampa della lista su stdout
     free(id);
     free(stima);
     free(msg);
