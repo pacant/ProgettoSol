@@ -34,8 +34,7 @@ contiene i metodi timeval_subtract (trovato online) e min,
 d’aiuto per calcolare le stime.
 
 ## Funzionamento
-
-### Client
+### Client
 Il client riceve come argomento p, k e w, dove p è il numero di server
 a cui connettersi tra i k disponibili, e w è il numero di messaggi da
 mandare.
